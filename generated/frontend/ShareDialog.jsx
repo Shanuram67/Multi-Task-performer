@@ -1,0 +1,32 @@
+import React from "react";
+import './styles.css';
+/**
+ * GenericComponent
+ * A reusable UI component that adapts to any entity type (e.g., tasks, users, projects).
+ * It displays a simple card-based list and can be extended by the Frontend Agent.
+ */
+
+const GenericComponent = ({ title = "Items", data = [] }) => {
+  return (
+    <div className="generic-component">
+      <h2>{title}</h2>
+      {data.length === 0 ? (
+        <p>No {title.toLowerCase()} available.</p>
+      ) : (
+        <div className="card-grid">
+          {data.map((item, index) => (
+            <div key={index} className="card">
+              {Object.entries(item).map(([key, value]) => (
+                <p key={key}>
+                  <strong>{key}:</strong> {value}
+                </p>
+              ))}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default GenericComponent;
