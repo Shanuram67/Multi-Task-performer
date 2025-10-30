@@ -46,38 +46,21 @@ const Dashboard = ({ user, onLogout }) => {
     const [loading, setLoading] = useState(true);
 
     // Function to fetch tasks from the Backend API (FIX: Now uses the implemented endpoint)
-    const fetchTasks = async () => {
-        const token = localStorage.getItem('access_token');
-        if (!token) {
-            setLoading(false);
-            return onLogout(); // Redirect if no token
-        }
+  const fetchTasks = async () => {
+  const currentUser = localStorage.getItem("current_username");
+  if (!currentUser) return onLogout();
 
-        try {
-            const response = await fetch(`${API_URL}/api/tasks`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-            
-            if (response.ok) {
-                const data = await response.json();
-                setTasks(data.tasks);
-            } else if (response.status === 401) {
-                // Token expired or invalid
-                onLogout(); 
-            } else {
-                console.error("Failed to load tasks:", response.status);
-                setTasks([]); // Clear tasks on error
-            }
+  try {
+    const response = await fetch(`${API_URL}/api/tasks/${currentUser}`);
+    const data = await response.json();
+    setTasks(data.tasks || []);
+  } catch (error) {
+    console.error("Error fetching tasks:", error);
+  } finally {
+    setLoading(false);
+  }
+};
 
-        } catch (error) {
-            console.error('Task fetching error: Failed to reach server.', error);
-            // Optionally, show a message box about server connection failure
-        } finally {
-            setLoading(false);
-        }
-    };
 
     useEffect(() => {
         fetchTasks();

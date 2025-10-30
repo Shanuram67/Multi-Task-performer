@@ -33,6 +33,7 @@ if (response.ok && data.access_token) {
   localStorage.setItem("current_username", username);
   onLogin(username, data.access_token);
 }
+
  else {
                 setError(data.msg || 'Authentication failed. Check credentials.');
             }
