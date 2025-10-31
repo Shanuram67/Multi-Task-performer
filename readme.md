@@ -59,7 +59,7 @@ Built with a professional **React + Vite** frontend and a **Python backend**, th
 | Framework | Flask / FastAPI |
 | Responsibility | Builds REST APIs, handles database logic |
 | Output | Routes, models, and API structure |
-| Keywords Trigger | `api`, `database`, `auth`, `server`, `validation`, `graphql` |
+| Keywords Trigger | `api`, `database`, `auth`, `server`, `validation`, `REST` |
 
 ---
 
@@ -92,7 +92,7 @@ Built with a professional **React + Vite** frontend and a **Python backend**, th
 All visual design handled in:
 ```
 
-frontend/src/styles/styles.css
+frontend/src/app.css
 
 ````
 
