@@ -1,20 +1,17 @@
 # agents/backend_agent.py
-def process_backend_tasks(tasks):
-    """
-    Simulate backend agent behavior: refine backend tasks into technical actions.
-    """
-    refined_tasks = []
-    for task in tasks:
-        if "api" in task.lower():
-            refined_tasks.append("Define API endpoints and routes using Flask Blueprints.")
-            refined_tasks.append("Implement request validation and error handling.")
-        elif "auth" in task.lower() or "login" in task.lower():
-            refined_tasks.append("Setup user authentication with JWT.")
-            refined_tasks.append("Secure endpoints using token-based access control.")
-        elif "database" in task.lower():
-            refined_tasks.append("Design normalized database schema using SQLAlchemy.")
-            refined_tasks.append("Implement migration scripts with Flask-Migrate.")
-        else:
-            refined_tasks.append(f"Develop backend logic for {task.lower()}.")
+def process_backend_tasks(text: str):
+    """Detects backend tasks from the project brief."""
+    tasks = []
 
-    return refined_tasks
+    if any(k in text for k in ["auth", "login", "user", "register"]):
+        tasks.append("Implement user authentication and authorization logic.")
+    if "api" in text or "rest" in text:
+        tasks.append("Develop REST API endpoints for CRUD operations.")
+    if "database" in text or "db" in text:
+        tasks.append("Design and integrate database models and schema.")
+    if "server" in text or "flask" in text:
+        tasks.append("Set up Flask server and handle routing.")
+    if "validation" in text:
+        tasks.append("Add backend validation for user inputs.")
+
+    return tasks

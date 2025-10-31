@@ -1,53 +1,64 @@
 # agents/coordinator_agent.py
 from .frontend_agent import process_frontend_tasks
 from .backend_agent import process_backend_tasks
+from .review_agent import evaluate_tasks
+import re
 
-# --- Keyword patterns for task detection ---
-BACKEND_KEYWORDS = ["api", "database", "auth", "server", "backend", "rest", "graphql", "validation"]
-FRONTEND_KEYWORDS = ["ui", "page", "dashboard", "form", "button", "frontend", "component", "responsive"]
-
+def clean_text(text):
+    """Normalize brief text for easier keyword matching."""
+    return re.sub(r'[^a-zA-Z0-9\s]', '', text.lower())
 
 def generate_tasks_from_brief(title: str, description: str):
     """
-    Analyze the brief text and generate relevant technical tasks
-    for Backend and Frontend agents (local AI simulation).
+    Local AI Coordinator — No GPT key required.
+    Splits the given project brief into structured backend and frontend tasks.
     """
-    text = f"{title} {description}".lower()
-    backend_tasks = []
-    frontend_tasks = []
 
-    # --- Backend task detection ---
-    if any(k in text for k in BACKEND_KEYWORDS):
-        backend_tasks.append("Design and implement REST API endpoints.")
+    text = clean_text(f"{title} {description}")
+
+    backend_ideas = process_backend_tasks(text)
+    frontend_ideas = process_frontend_tasks(text)
+
+    # Basic business logic: auto-include extra steps based on keywords
+    business_workflows = []
+
     if "auth" in text or "login" in text:
-        backend_tasks.append("Setup user authentication and JWT-based session handling.")
-    if "database" in text or "data" in text:
-        backend_tasks.append("Design and migrate database schema.")
-    if "api" in text:
-        backend_tasks.append("Integrate external or internal API services.")
+        business_workflows.append("Design user authentication workflow (register/login/logout).")
 
-    # --- Frontend task detection ---
-    if any(k in text for k in FRONTEND_KEYWORDS):
-        frontend_tasks.append("Build a responsive dashboard UI.")
-    if "form" in text or "input" in text:
-        frontend_tasks.append("Create interactive forms with validation.")
     if "task" in text or "project" in text:
-        frontend_tasks.append("Implement task creation and listing page.")
-    if "component" in text:
-        frontend_tasks.append("Develop reusable UI components using React.")
+        business_workflows.append("Create task scheduling and status management workflow.")
 
-    # --- Default fallbacks ---
-    if not backend_tasks:
-        backend_tasks.append("Setup basic backend structure with Flask.")
-    if not frontend_tasks:
-        frontend_tasks.append("Setup basic frontend UI layout.")
+    if "data" in text or "database" in text:
+        business_workflows.append("Set up data validation and persistence layer in the database.")
 
-    # --- Refine tasks using agents ---
-    backend_tasks = process_backend_tasks(backend_tasks)
-    frontend_tasks = process_frontend_tasks(frontend_tasks)
+    if not backend_ideas and not frontend_ideas:
+        # fallback if text too generic
+        backend_ideas = [
+            "Set up basic REST API structure.",
+            "Implement user model and database connection.",
+        ]
+        frontend_ideas = [
+            "Design main UI layout with navigation bar and sections.",
+            "Create forms for input and submission.",
+        ]
 
-    # --- Return structured output ---
     return {
-        "backend": backend_tasks,
-        "frontend": frontend_tasks
+        "backend": backend_ideas + business_workflows,
+        "frontend": frontend_ideas,
+        "workflows": business_workflows
     }
+    
+    output = {
+        "backend": backend_ideas + business_workflows,
+        "frontend": frontend_ideas,
+        "workflows": business_workflows
+    }
+
+    # NEW: Pass through review agent
+    review = evaluate_tasks(output)
+    output["review"] = review
+
+    return output
+# Example usage:
+# tasks = generate_tasks_from_brief("Build a Task Manager", "Create a web app with user login and task scheduling.")
+# print(tasks)

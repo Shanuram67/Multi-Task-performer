@@ -1,5 +1,6 @@
 // GenericCard.jsx
 import React from 'react';
+import './styles.CSS';
 
 const GenericCard = ({ children, title, icon: Icon }) => (
   <div className="generic-card">

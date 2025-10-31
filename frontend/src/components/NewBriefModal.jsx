@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { X, Send, BookOpen } from 'lucide-react';
+import './styles.CSS';
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 

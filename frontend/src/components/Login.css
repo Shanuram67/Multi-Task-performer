@@ -1,0 +1,159 @@
+/* ========== Page Layout ========== */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(145deg, #eadeda, #bfb8ad);
+  padding: 1rem;
+}
+
+/* ========== Card Styling ========== */
+.GenericCard {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  padding: 2.2rem 2.5rem;
+  max-width: 380px;
+  width: 100%;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.GenericCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.GenericCard h2,
+.GenericCard .title {
+  text-align: center;
+  color: #10b981;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+/* ========== Form Layout ========== */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-family: "Inter", sans-serif;
+}
+
+.form-label {
+  font-weight: 600;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 12px;
+  color: #10b981;
+  width: 20px;
+  height: 20px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.6rem 0.8rem 0.6rem 2.5rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+.form-input:focus {
+  border-color: #10b981;
+  box-shadow: 0 0 4px rgba(138, 48, 51, 0.3);
+}
+
+/* ========== Button ========== */
+.btn-primary {
+  background-color: #10b981;
+  color: #fff;
+  width: 100%;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+  display: block;
+  margin: 1rem auto 0 auto;
+}
+
+.btn-primary:hover {
+  background-color: #10b981;
+  transform: translateY(-1px);
+}
+
+.btn-primary:disabled {
+  background-color: #bfb8ad;
+  cursor: not-allowed;
+}
+
+/* ========== Auth Toggle ========== */
+.auth-toggle-text {
+  text-align: center;
+  margin-top: 1rem;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.auth-toggle-btn {
+  background: none;
+  border: none;
+  color: #10b981;
+  font-weight: 600;
+  cursor: pointer;
+  margin-left: 5px;
+  transition: color 0.2s ease;
+}
+
+.auth-toggle-btn:hover {
+  color: #10b981;
+  text-decoration: underline;
+}
+
+/* ========== Responsive Design ========== */
+@media screen and (max-width: 1024px) {
+  .GenericCard {
+    max-width: 360px;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .GenericCard {
+    max-width: 340px;
+    padding: 2rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .login-container {
+    padding: 0.5rem;
+    background: #eadeda;
+  }
+
+  .GenericCard {
+    width: 92%;
+    padding: 1.5rem;
+  }
+
+  .form-input {
+    font-size: 0.9rem;
+  }
+
+  .btn-primary {
+    font-size: 0.95rem;
+  }
+}

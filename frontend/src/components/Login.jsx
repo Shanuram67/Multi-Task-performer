@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { LogIn, User, Key } from 'lucide-react';
 import GenericCard from './GenericCard';
+import './styles.CSS';
+
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 

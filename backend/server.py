@@ -87,6 +87,43 @@ def login():
     return jsonify({"msg": "Invalid credentials"}), 401
 
 
+# --- DELETE TASK ---
+@app.route('/api/tasks/<int:task_id>', methods=['DELETE'])
+def delete_task(task_id):
+    task = TechnicalTask.query.get(task_id)
+    if not task:
+        return jsonify({"msg": "Task not found"}), 404
+
+    db.session.delete(task)
+    db.session.commit()
+    return jsonify({"msg": f"Task {task_id} deleted successfully"}), 200
+
+
+# --- REVIEW TASK ---
+@app.route('/api/review/<int:task_id>', methods=['POST'])
+def review_task(task_id):
+    task = TechnicalTask.query.get(task_id)
+    if not task:
+        return jsonify({"msg": "Task not found"}), 404
+
+    # Simple mock "AI review"
+    if "api" in task.description.lower():
+        feedback = "✅ Excellent backend structure and API focus."
+    elif "ui" in task.description.lower():
+        feedback = "🎨 Good UI coverage. Consider accessibility improvements."
+    else:
+        feedback = "🛠️ Task defined well but needs deeper review."
+
+    task.status = "Reviewed"
+    db.session.commit()
+
+    return jsonify({
+        "msg": "Task reviewed successfully",
+        "feedback": feedback,
+        "task_id": task_id,
+        "status": task.status
+    }), 200
+
 
 # --- CREATE NEW BRIEF (No JWT) ---
 @app.route('/api/briefs', methods=['POST'])
